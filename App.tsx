@@ -58,6 +58,7 @@ class MyHomeScreen extends React.Component {
   }
 
   render() {
+
     const getHeadline = () => {
       if (this.state.arrived && !this.state.rated) {
         return <View>
@@ -76,6 +77,7 @@ class MyHomeScreen extends React.Component {
           </View>
       }
     }
+
     const todayFoodView = 
       <View>
         <Image 
@@ -100,6 +102,7 @@ class MyHomeScreen extends React.Component {
             title=" Cancel"
             style={{paddingHorizontal: 8}} />
         </View>}
+
         {this.state.arrived && !this.state.rated && 
           <View>
             <Rating
