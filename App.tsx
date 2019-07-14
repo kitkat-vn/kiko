@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Image, Text, TouchableOpacity} from 'react-native';
-import {Button, Icon, Rating, Overlay, Card} from 'react-native-elements';
+import {Button, Icon, Rating, Overlay, Card, ListItem} from 'react-native-elements';
 import {createDrawerNavigator, createAppContainer} from 'react-navigation';
 import chosen_foods from './data/chosen_foods';
 
@@ -25,7 +25,11 @@ class MyHomeScreen extends React.Component {
     minLeft: 45,
     arrived: false,
     rated: false,
-    isChangeFoodVisible: false
+    isChangeFoodVisible: false,
+    showTodayMeal: true,
+    todayFood: chosen_foods[0],
+    tmrFood: chosen_foods[1],
+    foodOptions: [chosen_foods[1], chosen_foods[2]]
   }
 
   reduceMinLeft = () => {
@@ -38,7 +42,14 @@ class MyHomeScreen extends React.Component {
   }
 
   handleFinishRating = () => {
-    this.setState({ rated: true })
+    this.setState({ rated: true, showTodayMeal: false })
+  }
+
+  handleChangeFood = (food) => {
+    this.setState({ 
+      todayFood: food,
+      isChangeFoodVisible: false
+    })
   }
 
   componentDidMount() {
@@ -46,36 +57,36 @@ class MyHomeScreen extends React.Component {
   }
 
   render() {
-    const today_food = chosen_foods[0];
-    const tmr_food = chosen_foods[1];
     const getHeadline = () => {
       if (this.state.arrived && !this.state.rated) {
         return <View>
             <Text style={{padding: 16, textAlign: "center"}}>FEEDBACK</Text>
-            <Text style={{paddingBottom: 16, textAlign: 'center', fontSize: 20}}>How was {today_food.name}?</Text>
+            <Text style={{paddingBottom: 16, textAlign: 'center', fontSize: 20}}>How was {this.state.todayFood.name}?</Text>
           </View>
       } else if (this.state.rated) {
         return <View>
           <Text style={{padding: 16, textAlign: "center"}}>TOMORROW'S MEAL</Text>
-          <Text style={{paddingBottom: 16, textAlign: 'center', fontSize: 20}}>{tmr_food.name}</Text>
+          <Text style={{paddingBottom: 16, textAlign: 'center', fontSize: 20}}>{this.state.tmrFood.name}</Text>
         </View>
       } else {
         return <View>
             <Text style={{padding: 16, textAlign: "center"}}>TODAY'S MEAL</Text>
-            <Text style={{paddingBottom: 16, textAlign: 'center', fontSize: 20}}>{today_food.name}</Text>
+            <Text style={{paddingBottom: 16, textAlign: 'center', fontSize: 20}}>{this.state.todayFood.name}</Text>
           </View>
       }
     }
-    return (
+    const todayFoodView = 
       <View>
-        <Header navigation={this.props.navigation} title="Home" />
-        {getHeadline()}
         <Image 
-          style={{width: "100%", aspectRatio: 1}}
-          source={{uri: today_food.photo}} />
-        <View style={{flexDirection: 'row', padding: 8, alignItems: 'center', justifyContent: 'flex-end', width: '100%'}}>
+            style={{width: "100%", aspectRatio: 1}}
+            source={{uri: this.state.todayFood.photo}} />
+        {!this.state.arrived && <View style={{flexDirection: 'row', paddingHorizontal: 8, paddingTop: 8, alignItems: 'center', justifyContent: 'flex-end', width: '100%'}}>
           <Icon name="hourglass-half" type='font-awesome' size={11}/>
           <Text> Arrive in {this.state.minLeft} minutes</Text>
+        </View>}
+        <View style={{flexDirection: 'row', paddingHorizontal: 8, paddingBottom: 16, alignItems: 'center', justifyContent: 'flex-end', width: '100%'}}>
+          <Text> Provided by </Text>
+          <Text style={{textDecorationLine: 'underline'}}>{this.state.todayFood.restaurant}</Text>
         </View>
         {this.state.minLeft > 30 && <View style={{flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity style={{paddingHorizontal: 8}}>
@@ -88,21 +99,42 @@ class MyHomeScreen extends React.Component {
             title=" Cancel"
             style={{paddingHorizontal: 8}} />
         </View>}
-        {this.state.arrived && !this.state.rated && <Rating
-          type='heart'
-          ratingCount={5}
-          imageSize={40}
-          showRating
-          onFinishRating={this.handleFinishRating}
-        />}
-        <Overlay isVisible={this.state.isChangeFoodVisible}>
-          <View style={{flexDirection: "row"}}>
-            <Card
-              title={chosen_foods[1].name}
-              image={chosen_foods[1].photo}></Card>
-            <Card
-              title={chosen_foods[2].name}
-              image={chosen_foods[2].photo}></Card>
+        {this.state.arrived && !this.state.rated && 
+          <View>
+            <Rating
+              type='heart'
+              ratingCount={5}
+              startingValue={0}
+              imageSize={40}
+              onFinishRating={this.handleFinishRating}
+            />
+            <Text style={{padding: 16, textAlign: "center"}}>
+              Your feedback will be used to provide better meals in the future!
+            </Text>
+          </View>}
+      </View>
+    const tmrFoodView =
+      <View>
+        <Image 
+          style={{width: "100%", aspectRatio: 1}}
+          source={{uri: this.state.tmrFood.photo}} />
+      </View>
+    return (
+      <View>
+        <Header navigation={this.props.navigation} title="Home" />
+        {getHeadline()}
+        {this.state.showTodayMeal ? todayFoodView : tmrFoodView}
+        <Overlay 
+          isVisible={this.state.isChangeFoodVisible}
+          onBackdropPress={() => this.setState({ isChangeFoodVisible: false })}
+          height="auto">
+          <View style={{flexDirection: 'column'}}>
+            {this.state.foodOptions.map((food) => 
+              <ListItem
+                key={food.name}
+                title={food.name}
+                leftAvatar={{source: { uri: food.photo }}}
+                onPress={() => this.handleChangeFood(food)} />)}
           </View>
         </Overlay>
       </View>
