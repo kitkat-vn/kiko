@@ -16,8 +16,8 @@ export default class AccountScreen extends React.Component {
     account,
     gender: account.gender == 'male' ? 0 : 1,
     autoOrder: true,
-    height: '178cm',
-    width: '70kg'
+    height: account.height,
+    weight: account.weight
   }
 
   render() {
@@ -41,10 +41,10 @@ export default class AccountScreen extends React.Component {
             }
           },
           {
-            key: "width",
+            key: "weight",
             props: {
-              title: "Width",
-              rightTitle: this.state.width
+              title: "Weight",
+              rightTitle: this.state.weight
             }
           }
         ]
