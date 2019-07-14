@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Image, Text, TouchableOpacity} from 'react-native';
-import {Button, Icon, Rating, Overlay, Card, ListItem} from 'react-native-elements';
+import {Button, Icon, Rating, Overlay, Card, ListItem, Avatar} from 'react-native-elements';
 import {createDrawerNavigator, createAppContainer} from 'react-navigation';
 import chosen_foods from './data/chosen_foods';
 
@@ -8,6 +8,7 @@ import Header from './src/components/header';
 import SubscriptionsScreen from './src/screens/Subscriptions';
 import PreferencesScreen from './src/screens/Preferences';
 import AccountScreen from './src/screens/Account';
+import OrderHistoryScreen from './src/screens/OrderHistory';
 
 class MyHomeScreen extends React.Component {
   static navigationOptions = {
@@ -65,7 +66,7 @@ class MyHomeScreen extends React.Component {
           </View>
       } else if (this.state.rated) {
         return <View>
-          <Text style={{padding: 16, textAlign: "center"}}>TOMORROW'S MEAL</Text>
+          <Text style={{padding: 16, textAlign: "center"}}>NEXT MEAL</Text>
           <Text style={{paddingBottom: 16, textAlign: 'center', fontSize: 20}}>{this.state.tmrFood.name}</Text>
         </View>
       } else {
@@ -90,7 +91,7 @@ class MyHomeScreen extends React.Component {
         </View>
         {this.state.minLeft > 30 && <View style={{flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity style={{paddingHorizontal: 8}}>
-            <Button 
+            <Button
               icon={<Icon name="exchange" size={15} color="white" type='font-awesome'/>}
               title=" Change" onPress={() => {this.setState({ isChangeFoodVisible: true })}} />
           </TouchableOpacity>
@@ -103,7 +104,7 @@ class MyHomeScreen extends React.Component {
           <View>
             <Rating
               type='heart'
-              ratingCount={5}
+              ratingCount={3}
               startingValue={0}
               imageSize={40}
               onFinishRating={this.handleFinishRating}
@@ -114,10 +115,25 @@ class MyHomeScreen extends React.Component {
           </View>}
       </View>
     const tmrFoodView =
-      <View>
-        <Image 
-          style={{width: "100%", aspectRatio: 1}}
-          source={{uri: this.state.tmrFood.photo}} />
+      <View style={{flexDirection: 'column', alignContent: 'center', justifyContent: 'center'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'center', alignContent: 'center'}}>
+          <Image 
+            style={{width: "75%", aspectRatio: 1}}
+            source={{uri: this.state.tmrFood.photo}} />
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'center', padding: 16}}>
+          <Text>or change to</Text>
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+          <View style={{flexDirection: 'column', justifyContent: 'center', alignContent: 'center', alignItems: 'center', padding: 16}}>
+            <Avatar rounded source={{uri: chosen_foods[0].photo}} size='large' />
+            <Text>{chosen_foods[0].name}</Text>
+          </View>
+          <View style={{flexDirection: 'column', justifyContent: 'center', alignContent: 'center', alignItems: 'center', padding: 16}}>
+            <Avatar rounded source={{uri: chosen_foods[2].photo}} size='large' />
+            <Text>{chosen_foods[2].name}</Text>
+          </View>
+        </View>
       </View>
     return (
       <View>
@@ -177,6 +193,9 @@ const MyDrawerNavigator = createDrawerNavigator({
   },
   Subscriptions: {
     screen: SubscriptionsScreen,
+  },
+  OrderHistory: {
+    screen: OrderHistoryScreen
   },
   Preferences: {
     screen: PreferencesScreen,
