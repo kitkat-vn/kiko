@@ -48,6 +48,7 @@ class MyHomeScreen extends React.Component {
   render() {
     const today_food = chosen_foods[0];
     const tmr_food = chosen_foods[1];
+
     const getHeadline = () => {
       if (this.state.arrived && !this.state.rated) {
         return <View>
@@ -66,6 +67,8 @@ class MyHomeScreen extends React.Component {
           </View>
       }
     }
+
+
     return (
       <View>
         <Header navigation={this.props.navigation} title="Home" />
@@ -95,14 +98,19 @@ class MyHomeScreen extends React.Component {
           showRating
           onFinishRating={this.handleFinishRating}
         />}
+
         <Overlay isVisible={this.state.isChangeFoodVisible}>
           <View style={{flexDirection: "row"}}>
             <Card
               title={chosen_foods[1].name}
-              image={chosen_foods[1].photo}></Card>
+              image={chosen_foods[1].photo}
+              containerStyle={{padding: 20}}
+              ></Card>
             <Card
               title={chosen_foods[2].name}
-              image={chosen_foods[2].photo}></Card>
+              image={chosen_foods[2].photo}
+              containerStyle={{padding: 20}}
+            ></Card>
           </View>
         </Overlay>
       </View>
