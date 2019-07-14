@@ -1,12 +1,9 @@
 import React from 'react'
-import {StyleSheet, View, FlatList, ScrollView, TouchableHighlight, Image, TouchableWithoutFeedback} from 'react-native'
+import {StyleSheet, View, FlatList, ScrollView, TouchableHighlight, Image, TouchableWithoutFeedback, Alert} from 'react-native'
 import {Icon, Avatar, ListItem, CheckBox} from 'react-native-elements'
 import Header from '../components/header';
 import foods from '../../data/foods';
 
-actionOnRow = (item) => {
-  console.log('Selected Item :', item);
-}
 
 const styles = StyleSheet.create({
   rowItem: {
@@ -31,6 +28,10 @@ export default class PreferencesScreen extends React.Component {
   };
 
   render() {
+    const actionOnRow = (item) => {
+      item.chosen = !item.chosen
+    }
+    
     return (
       <ScrollView>
         <Header navigation={this.props.navigation} title="Preferences" />
@@ -46,7 +47,7 @@ export default class PreferencesScreen extends React.Component {
               <FlatList
                 data={item.items}
                 renderItem={({item}) => (
-                  <TouchableWithoutFeedback onPress={ () => this.actionOnRow(item)}>
+                  <TouchableWithoutFeedback onPress={ () => actionOnRow(item)}>
                     <ListItem 
                       key={item.name}
                       title={item.name}

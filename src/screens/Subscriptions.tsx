@@ -8,10 +8,6 @@ export default class SubscriptionsScreen extends React.Component {
     drawerLabel: 'Subscriptions',
     drawerIcon: ({ tintColor }) => (
       <Icon name="money" type='font-awesome'/>
-      //<Image
-      //  source={require('./notif-icon.png')}
-      //  style={[styles.icon, {tintColor: tintColor}]}
-      ///>
     ),
   };
 
@@ -24,22 +20,41 @@ export default class SubscriptionsScreen extends React.Component {
             color="#4f9deb"
             title="Free"
             price="0đ"
-            info={['1 User', 'Basic Support', 'All Core Features']}
-            button={{ title: 'GET STARTED', icon: 'flight-takeoff' }}
+            info={['Basic Support', 'Core values']}
+            button={{ title: 'JOIN', icon: 'flight-takeoff' }}
           />
           <PricingCard
-            color="#4f9deb"
-            title="Basic"
-            price="700.000đ"
-            info={['1 User', 'Basic Support', 'All Core Features']}
-            button={{ title: 'GET STARTED', icon: 'flight-takeoff' }}
+            
+            color="#e6fa0a"
+            title="Premium 1"
+            price="999.000 VND"
+            info={['Core values','One meal every working day','KIKO takes care of monthly meals payment',
+            'Recommend System']}          
+            button={{ title: 'JOIN', icon: 'flight-takeoff' }}
           />
           <PricingCard
-            color="#4f9deb"
-            title="Premium"
-            price="1.000.000đ"
-            info={['1 User', 'Basic Support', 'All Core Features']}
-            button={{ title: 'GET STARTED', icon: 'flight-takeoff' }}
+            color="#6afcfc"
+            title="Premium 2"
+            price="1.999.999 VND"
+            info={['Core values','Two meals every working day','KIKO takes care of monthly meals payment',
+            'Recommend System']}
+            button={{ title: 'JOIN', icon: 'flight-takeoff' }}
+          />
+          <PricingCard
+            color="#34f227"
+            title="Master"
+            price="1.499.999 VND"
+            info={['Core values','One meal every working day','KIKO takes care of monthly meals payment',
+            'Recommend System', 'Health and Nutrition Recommendation']}
+            button={{ title: 'JOIN', icon: 'flight-takeoff' }}
+          />
+          <PricingCard
+            color="#9614fa"
+            title="Master 2"
+            price="2.499.999 VND"
+            info={['Core values','Two meals every working day','KIKO takes care of monthly meals payment',
+          'Recommend System', 'Health and Nutrition Recommendation']}
+            button={{ title: 'JOIN', icon: 'flight-takeoff' }}
           />
         </ScrollView>
       </View>
